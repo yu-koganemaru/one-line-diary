@@ -28,7 +28,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: one-line-diary
-      MYSQL_USER: root
+      MYSQL_USER: user
       MYSQL_PASSWORD: root
       TZ: 'Asia/Tokyo'
     volumes:
