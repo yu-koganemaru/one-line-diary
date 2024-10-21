@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>One Line Diary</title>
+@section('content')
+      
+  <h1>ONE LINE DIARY</h1>
+  
+  @forelse ($posts as $post)
+    <li>{{ $post->main_text }}</li>
+  @empty
+      <p>投稿はありません。</p>
+  @endforelse
 
-    </head>
-    <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-      <h1>One Line Diary</h1>
-    </body>
-</html>
+@endsection
