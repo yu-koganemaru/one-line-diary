@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        //ページネーションにBootstrapデザインを適応する
         Paginator::useBootstrap();
     }
 }

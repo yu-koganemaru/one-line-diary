@@ -13,6 +13,14 @@ class PostService
     }
 
     /**
+     *  投稿の作成
+     */
+    public function create(array $attributes)
+    {
+        return $this->postRepository->create($attributes);
+    }
+
+    /**
      *  ページネーションデータの取得
      */
     public function getList()

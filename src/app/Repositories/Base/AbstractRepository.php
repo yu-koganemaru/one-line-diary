@@ -61,7 +61,7 @@ abstract class AbstractRepository
     /**
      * 作成系
      */
-    public function store(array $attributes): Model
+    public function create(array $attributes): Model
     {
         return $this->model->create($attributes);
     }

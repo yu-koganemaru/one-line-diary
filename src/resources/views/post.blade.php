@@ -2,6 +2,14 @@
 
 @section('content')
       
-  <h1>投稿を作成する。</h1>
+  <form method="POST" action="/post" enctype="multipart/form-data">
+    
+    @csrf
+    <input type="text" name="main_text">
+    <input type="file" name="image">
+
+    <button>アップロード</button>
+
+  </form>
 
 @endsection
