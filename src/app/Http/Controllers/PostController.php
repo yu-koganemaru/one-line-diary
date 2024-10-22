@@ -44,12 +44,16 @@ class PostController extends Controller
     public function post(PostRequest $request)
     {
       // 本文を保存する
-      $this->postService->create(['main_text' => $request->main_text]);
+      $post = $this->postService->create(['main_text' => $request->main_text]);
 
       // 画像を保存する
-      if($filepath = $this->localStorageService->storeFile($request->file('image'), 'public/img')){
-        // 画像パスの保存
-        $this->postImageService->create(['image_path' => $filepath]);
+      if($filepath = $this->localStorageService->storeFile($request->file('image'), '/img')){
+        
+        // パスの保存
+        $this->postImageService->create([
+          'post_id' => $post->id,
+          'image_path' => str_replace('img/', 'storage/img/', $filepath)
+        ]);
       }
 
       // 一覧へ遷移する

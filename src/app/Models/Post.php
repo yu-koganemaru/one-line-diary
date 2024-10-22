@@ -28,7 +28,7 @@ class Post extends Model
     /**
      * 投稿画像
      */
-    public function post_images()
+    public function images()
     {
         return $this->hasMany('App\Models\PostImage', 'post_id', 'id');
     }

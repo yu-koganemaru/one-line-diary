@@ -35,9 +35,9 @@ abstract class AbstractRepository
         return $this->model->all();
     }
 
-    public function getList(int $count = 10): LengthAwarePaginator
+    public function getList( array $with = [], int $count = 10): LengthAwarePaginator
     {
-        return $this->model->paginate($count);
+        return $this->model->with($with)->paginate($count);
     }
 
     /**

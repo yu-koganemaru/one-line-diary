@@ -25,7 +25,7 @@ class PostService
      */
     public function getList()
     {
-        return $this->postRepository->getList(Posts::getValue('トップページネーション'));
+        return $this->postRepository->getList(['images'], Posts::getValue('トップページネーション'));
     }
 
 }

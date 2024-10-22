@@ -15,6 +15,7 @@ class PostImage extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'post_id',
         'image_path'
     ];
 

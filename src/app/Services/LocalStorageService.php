@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class LocalStorageService
 {
@@ -13,13 +14,13 @@ class LocalStorageService
      * @param $storagePath
      * @return void
      */
-    public function storeFile(File|null $file, string $storagePath)
+    public function storeFile(UploadedFile|null $file, string $storagePath)
     {
         if (empty($file)) {
             return null;
+
         }
-        
-        $filePath = $file->store($storagePath);
+        $filePath = Storage::disk('public')->putFile($storagePath, $file);
         
         return $filePath;
     }

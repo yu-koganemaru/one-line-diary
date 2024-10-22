@@ -7,6 +7,9 @@
       <!-- 投稿への遷移 -->
       <li>{{ $post->main_text }}</li>
       <!-- 画像 -->
+      @foreach ($post->images as $image)
+        <li><img src="{{ asset("$image->image_path") }}" alt=""></li>
+      @endforeach
       <!-- 削除 -->
     @empty
         <p>投稿はありません。</p>
