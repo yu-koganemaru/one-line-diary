@@ -5,22 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Services\PostService;
 use App\Services\PostImageService;
-use App\Services\LocalStorageService;
-use App\Http\Requests\PostRequest;
+use App\Services\StorageService;
+use App\Http\Requests\PostPublishRequest;
 
 class PostController extends Controller
 {
     public function __construct(
         private PostService $postService,
         private PostImageService $postImageService,
-        private LocalStorageService $localStorageService
+        private StorageService $storageService
     ) {
     }
 
     /**
      * 一覧ページの表示
      */
-    public function indexView()
+    public function index()
     {
         return view('index',
             [
@@ -33,7 +33,7 @@ class PostController extends Controller
     /**
      * 投稿作成ページの表示
      */
-    public function postView()
+    public function create()
     {
         return view('post');
     }
@@ -41,13 +41,13 @@ class PostController extends Controller
      /**
      * 投稿
      */
-    public function post(PostRequest $request)
+    public function store(PostPublishRequest $request)
     {
       // 本文を保存する
       $post = $this->postService->create(['main_text' => $request->main_text]);
 
       // 画像を保存する
-      if($filepath = $this->localStorageService->storeFile($request->file('image'), '/img')){
+      if($filepath = $this->storageService->storeFile($request->file('image'), '/img')){
         
         // パスの保存
         $this->postImageService->create([
@@ -55,6 +55,34 @@ class PostController extends Controller
           'image_path' => str_replace('img/', 'storage/img/', $filepath)
         ]);
       }
+
+      // 一覧へ遷移する
+      return redirect('/');
+    }
+
+    /**
+     * 編集ページの表示
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * 編集
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * 削除
+     */
+    public function destroy()
+    {
+      // 投稿を削除する
+      $this->postService->destroy($request->post_id);
 
       // 一覧へ遷移する
       return redirect('/');

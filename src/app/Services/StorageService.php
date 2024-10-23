@@ -5,7 +5,7 @@ namespace App\Services;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-class LocalStorageService
+class StorageService
 {
     /**
      * 画像保存

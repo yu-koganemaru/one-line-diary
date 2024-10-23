@@ -21,6 +21,14 @@ class PostService
     }
 
     /**
+     *  投稿の削除
+     */
+    public function delete(int $id)
+    {
+        return $this->postRepository->destroy($id);
+    }
+
+    /**
      *  ページネーションデータの取得
      */
     public function getList()
