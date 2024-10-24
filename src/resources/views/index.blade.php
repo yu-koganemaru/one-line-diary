@@ -1,13 +1,35 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>One Line Diary</title>
+@section('content')
+  <div class='top'> 
 
-    </head>
-    <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-      <h1>One Line Diary</h1>
-    </body>
-</html>
+    <ul>
+      <!-- 投稿の表示 -->
+      @forelse ($posts as $post)
+      <li class='post'>
+        <ul>      
+          <!-- 投稿 -->
+          <li>{{ $post->main_text }}</li>
+          <li>{{ $post->created_at }}</li>
+
+          <!-- 編集 -->
+          <li><a class='post-link' href="{{url('/post/'.$post->id.'/edit')}}">編集</a></li>
+
+          <!-- 画像 -->
+          <li><img src="{{ asset($post->image->image_path ?? '') }}" alt=""></li>
+        </ul>
+      </li>
+      @empty
+        <li><p>投稿はありません。</p></li>
+      @endforelse
+
+    </ul>
+    
+    <!-- ページネーション -->
+    {{ $posts->links() }}
+
+    <!-- 投稿への遷移 -->
+    <a class='post-link' href="{{url('post/create')}}">投稿する</a>
+    
+  </div>
+@endsection
