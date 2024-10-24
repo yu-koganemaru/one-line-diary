@@ -26,7 +26,7 @@ class Post extends Model
     protected $hidden = [];
 
 
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
 

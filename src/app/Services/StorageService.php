@@ -9,10 +9,6 @@ class StorageService
 {
     /**
      * 画像保存
-     *
-     * @param $file
-     * @param $storagePath
-     * @return void
      */
     public function storeFile(UploadedFile|null $file, string $storagePath): bool|string|null
     {
@@ -27,9 +23,6 @@ class StorageService
 
     /**
      * 画像削除
-     *
-     * @param $storagePath
-     * @return void
      */
     public function deleteFile(string $storagePath): void
     {

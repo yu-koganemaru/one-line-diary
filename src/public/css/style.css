@@ -4,10 +4,16 @@ ul{
 
 li{
   list-style:none;
+  width: 20rem;
+  margin: auto;
 }
 
 a {
   text-decoration: none;
+}
+
+img {
+  width: 20rem;
 }
 
 header{
@@ -29,4 +35,8 @@ header{
 .top{
   margin: auto;
   text-align: center;
+}
+
+.post{
+  margin-bottom: 2rem;
 }

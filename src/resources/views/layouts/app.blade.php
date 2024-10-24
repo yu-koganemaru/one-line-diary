@@ -14,7 +14,9 @@
 <body>
     <div id="app">
         <header>
-            <h1 class='title'>ONE LINE DIARY</h1>
+            <a href="{{url('/')}}">
+                <h1 class='title'>ONE LINE DIARY</h1>
+            </a>
         </header>
         <main>
             @yield('content')

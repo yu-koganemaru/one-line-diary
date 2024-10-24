@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Base;
 
-use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -27,39 +26,23 @@ abstract class AbstractRepository
     }
 
     /**
-     * 取得系
+     * 取得
      */
-
-    public function getAll(): ?Collection
-    {
-        return $this->model->all();
-    }
-
     public function getList( array $with = [], int $count = 10): LengthAwarePaginator
     {
-        return $this->model->with($with)->paginate($count);
+        return $this->model->latest()->with($with)->paginate($count);
     }
 
     /**
-     * 検索系
+     * 検索
      */
     public function getOneById(int $id, array $with = []): ?Model
     {
         return $this->model->with($with)->find($id);
     }
 
-    public function getByIds(array $ids, array $with = []): Collection
-    {
-        return $this->model->whereIn($this->model->getKeyName(), $ids)->with($with)->get();
-    }
-
-    public function getFirstWhere(array $params, array $with = []): ?Model
-    {
-        return $this->model->where($params)->with($with)->first();
-    }
-
     /**
-     * 作成系
+     * 作成
      */
     public function create(array $attributes): Model
     {
@@ -67,7 +50,7 @@ abstract class AbstractRepository
     }
 
     /**
-     * 更新系
+     * 更新
      */
     public function update(int $id, array $attributes): ?Model
     {
@@ -88,7 +71,7 @@ abstract class AbstractRepository
     
 
     /**
-     * 削除系
+     * 削除
      */
     public function destroy(int $id)
     {

@@ -5,8 +5,11 @@ namespace App\Services;
 use App\Repositories\PostRepository;
 use App\Repositories\PostImageRepository;
 use App\Services\StorageService;
-use Illuminate\Http\UploadedFile;
 use App\Enums\Posts;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
+
 
 class PostService
 {
@@ -20,7 +23,7 @@ class PostService
     /**
      *  ページネーションデータの取得
      */
-    public function getList()
+    public function getList(): LengthAwarePaginator
     {
         return $this->postRepository->getList(['image'], Posts::getValue('トップページネーション'));
     }
@@ -28,7 +31,7 @@ class PostService
     /**
      *  取得
      */
-    public function getOneById(int $id)
+    public function getOneById(int $id): Model|null
     {
         return $this->postRepository->getOneById($id, ['image']);
     }
@@ -86,7 +89,7 @@ class PostService
     /**
      *  削除
      */
-    public function destroy(int $id)
+    public function destroy(int $id): int
     {
         // 古い画像を削除する
         $post = $this->postRepository->getOneById($id);
