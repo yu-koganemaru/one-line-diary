@@ -10,11 +10,10 @@
       <li>{{ $post->main_text }}</li>
 
       <!-- 画像 -->
-      @foreach ($post->images as $image)
-        <li><img src="{{ asset($image->image_path) }}" alt=""></li>
-      @endforeach
+      <li><img src="{{ asset($post->image->image_path ?? '') }}" alt=""></li>
 
-      <!-- 削除 -->
+      <!-- 編集 -->
+      <a class='post-link' href="{{url('/post/'.$post->id.'/edit')}}">編集</a>
 
     @empty
         <p>投稿はありません。</p>
@@ -24,7 +23,7 @@
     {{ $posts->links() }}
 
     <!-- 投稿への遷移 -->
-    <a class='post-link' href="{{url('create')}}">投稿する</a>
+    <a class='post-link' href="{{url('post/create')}}">投稿する</a>
 
   </div>
 @endsection

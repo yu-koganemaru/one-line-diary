@@ -43,9 +43,9 @@ abstract class AbstractRepository
     /**
      * 検索系
      */
-    public function getOneById($id): ?Model
+    public function getOneById(int $id, array $with = []): ?Model
     {
-        return $this->model->find($id);
+        return $this->model->with($with)->find($id);
     }
 
     public function getByIds(array $ids, array $with = []): Collection
@@ -71,12 +71,21 @@ abstract class AbstractRepository
      */
     public function update(int $id, array $attributes): ?Model
     {
-        return tap($this->getOneById($id), function ($model) use ($attributes) {
+        return tap($this->model->find($id), function ($model) use ($attributes) {
             if ($model !== null) {
                 $model->update($attributes);
             }
         });
     }
+
+    /**
+     * 更新 or 作成
+     */
+    public function updateOrCreate(array $search, array $attributes): Model
+    {
+        return $this->model->updateOrCreate($search, $attributes);
+    }
+    
 
     /**
      * 削除系

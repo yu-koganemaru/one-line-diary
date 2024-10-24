@@ -2,7 +2,7 @@
 
 @section('content')
       
-  <form method="POST" action="/post" enctype="multipart/form-data">
+  <form method="POST" action="/" enctype="multipart/form-data">
 
     @csrf
     <input type="text" name="main_text" value="{{ old('main_text') }}">

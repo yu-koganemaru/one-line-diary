@@ -14,7 +14,7 @@ class StorageService
      * @param $storagePath
      * @return void
      */
-    public function storeFile(UploadedFile|null $file, string $storagePath)
+    public function storeFile(UploadedFile|null $file, string $storagePath): bool|string|null
     {
         if (empty($file)) {
             return null;
@@ -24,4 +24,16 @@ class StorageService
         
         return $filePath;
     }
+
+    /**
+     * 画像削除
+     *
+     * @param $storagePath
+     * @return void
+     */
+    public function deleteFile(string $storagePath): void
+    {
+        Storage::disk('public')->delete($storagePath);
+    }
+    
 }

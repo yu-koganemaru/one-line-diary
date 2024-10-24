@@ -4,36 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Services\PostService;
-use App\Services\PostImageService;
-use App\Services\StorageService;
-use App\Http\Requests\PostPublishRequest;
+use App\Http\Requests\PostStoreRequest;
+use App\Http\Requests\PostUpdateRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
+use Illuminate\Contracts\View\View;
+use Log;
 
 class PostController extends Controller
 {
     public function __construct(
-        private PostService $postService,
-        private PostImageService $postImageService,
-        private StorageService $storageService
+        private PostService $postService
     ) {
     }
 
     /**
      * 一覧ページの表示
      */
-    public function index()
+    public function index(): View
     {
-        return view('index',
-            [
-                // 投稿一覧を取得する
-                'posts' => $this->postService->getList()
-            ]
-        );
+        // 投稿一覧を取得する
+        $post = $this->postService->getList();
+
+        return view('index',['posts' => $post]);
     }
 
     /**
      * 投稿作成ページの表示
      */
-    public function create()
+    public function create(): View
     {
         return view('post');
     }
@@ -41,20 +40,13 @@ class PostController extends Controller
      /**
      * 投稿
      */
-    public function store(PostPublishRequest $request)
+    public function store(PostStoreRequest $request): Redirector|RedirectResponse
     {
-      // 本文を保存する
-      $post = $this->postService->create(['main_text' => $request->main_text]);
-
-      // 画像を保存する
-      if($filepath = $this->storageService->storeFile($request->file('image'), '/img')){
-        
-        // パスの保存
-        $this->postImageService->create([
-          'post_id' => $post->id,
-          'image_path' => str_replace('img/', 'storage/img/', $filepath)
-        ]);
-      }
+      
+      $this->postService->create(
+        ['main_text' => $request->main_text],
+        $request->file('image')
+      );
 
       // 一覧へ遷移する
       return redirect('/');
@@ -63,26 +55,43 @@ class PostController extends Controller
     /**
      * 編集ページの表示
      */
-    public function edit($id)
+    public function edit($id): View
     {
-        //
+      $post = $this->postService->getOneById($id);
+
+      return view('edit',['post' => $post]);
     }
 
     /**
      * 編集
      */
-    public function update(Request $request, $id)
+    public function update(PostUpdateRequest $request, $id): Redirector|RedirectResponse
     {
-        //
+
+      // 更新項目の設定
+      $attributes = [];
+      if($request->main_text) {
+        $attributes['main_text'] = $request->main_text;
+      }
+      
+      $this->postService->update(
+        $id, 
+        $attributes, 
+        $request->file('image')
+      );
+
+      // 一覧へ遷移する
+      return redirect('/');
+        
     }
 
     /**
      * 削除
      */
-    public function destroy()
+    public function destroy($id): Redirector|RedirectResponse
     {
       // 投稿を削除する
-      $this->postService->destroy($request->post_id);
+      $this->postService->destroy($id);
 
       // 一覧へ遷移する
       return redirect('/');

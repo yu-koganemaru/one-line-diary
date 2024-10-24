@@ -25,11 +25,22 @@ class Post extends Model
      */
     protected $hidden = [];
 
+
+    public static function boot()
+    {
+        parent::boot();
+
+        // 削除の際に画像テーブルも削除
+        static::deleting(function ($post) {
+            $post->image()->delete();
+        });
+    }
+
     /**
      * 投稿画像
      */
-    public function images()
+    public function image()
     {
-        return $this->hasMany('App\Models\PostImage', 'post_id', 'id');
+        return $this->hasOne('App\Models\PostImage', 'post_id', 'id');
     }
 }
