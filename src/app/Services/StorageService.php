@@ -17,7 +17,7 @@ class StorageService
 
         }
         $filePath = Storage::disk('public')->putFile($storagePath, $file);
-        
+
         return $filePath;
     }
 
@@ -28,5 +28,5 @@ class StorageService
     {
         Storage::disk('public')->delete($storagePath);
     }
-    
+
 }

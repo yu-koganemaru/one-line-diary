@@ -25,12 +25,12 @@ class PostStoreRequest extends FormRequest
     {
         return [
             // 本文
-            'main_text'=>[
+            'main_text' => [
                 'required',
                 'max:190'
             ],
             // 画像
-            'image'=>[
+            'image' => [
                 'mimes:jpg',
                 'extensions:jpg'
             ],
@@ -48,7 +48,7 @@ class PostStoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-          'required'=>':attributeは必須です。'
+            'required' => ':attributeは必須です。'
         ];
     }
 }
