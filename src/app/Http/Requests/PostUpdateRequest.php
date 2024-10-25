@@ -25,11 +25,11 @@ class PostUpdateRequest extends FormRequest
     {
         return [
             // 本文
-            'main_text'=>[
+            'main_text' => [
                 'max:190'
             ],
             // 画像
-            'image'=>[
+            'image' => [
                 'mimes:jpg',
                 'extensions:jpg'
             ],
@@ -47,7 +47,7 @@ class PostUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-          
+
         ];
     }
 }

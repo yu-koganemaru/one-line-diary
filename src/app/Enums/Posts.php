@@ -17,7 +17,7 @@ final class Posts extends Enum
         return parent::getDescription($value);
     }
 
-    public static function getValue(string $key):mixed
+    public static function getValue(string $key): mixed
     {
         if ($key === 'トップページネーション') {
             return self::PAGINATE;

@@ -28,7 +28,7 @@ abstract class AbstractRepository
     /**
      * 取得
      */
-    public function getList( array $with = [], int $count = 10): LengthAwarePaginator
+    public function getList(array $with = [], int $count = 10): LengthAwarePaginator
     {
         return $this->model->latest()->with($with)->paginate($count);
     }
@@ -52,7 +52,7 @@ abstract class AbstractRepository
     /**
      * 更新
      */
-    public function update(int $id, array $attributes): ?Model
+    public function update(int $id, array $attributes): Model
     {
         return tap($this->model->find($id), function ($model) use ($attributes) {
             if ($model !== null) {
@@ -68,12 +68,12 @@ abstract class AbstractRepository
     {
         return $this->model->updateOrCreate($search, $attributes);
     }
-    
+
 
     /**
      * 削除
      */
-    public function destroy(int $id)
+    public function destroy(int $id): bool
     {
         return $this->model->destroy($id);
     }

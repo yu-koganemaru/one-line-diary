@@ -14,12 +14,14 @@ use Illuminate\Database\Eloquent\Model;
 class PostService
 {
     public function __construct(
+        // Services
+        private StorageService $storageService,
+        // Repositories
         private PostRepository $postRepository,
-        private PostImageRepository $postImageRepository,
-        private StorageService $storageService
-    ){
+        private PostImageRepository $postImageRepository
+    ) {
     }
-    
+
     /**
      *  ページネーションデータの取得
      */
@@ -45,12 +47,12 @@ class PostService
         $post = $this->postRepository->create($attributes);
 
         // 画像を保存する
-        if($filepath = $this->storageService->storeFile($file, '/img')){
-            
+        if ($filepath = $this->storageService->storeFile($file, '/img')) {
+
             // パスの保存
             $this->postImageRepository->create([
-            'post_id' => $post->id,
-            'image_path' => str_replace('img/', 'storage/img/', $filepath)
+                'post_id' => $post->id,
+                'image_path' => str_replace('img/', 'storage/img/', $filepath)
             ]);
         }
 
@@ -59,17 +61,14 @@ class PostService
     /**
      *  更新
      */
-    public function update(int $id, array $attributes, UploadedFile|null $file = null ): void 
+    public function update(int $id, array $attributes, UploadedFile|null $file = null): void
     {
-      
-        if($file){
+
+        if ($file) {
 
             // 古い画像を削除する
-            $post = $this->postRepository->getOneById($id);
-            if($post->image){
-                $this->storageService->deleteFile(str_replace('storage/img/', 'img/', $post->image->image_path));
-            }
-            
+            $this->deleteOldImageFileOfPost($id);
+
             // 画像を保存する
             $filepath = $this->storageService->storeFile($file, '/img');
             $imgFilepath = str_replace('img/', 'storage/img/', $filepath);
@@ -80,10 +79,10 @@ class PostService
                 ['image_path' => $imgFilepath]
             );
         }
-  
+
         // 本文を保存する
         $this->postRepository->update($id, $attributes);
-        
+
     }
 
     /**
@@ -92,12 +91,20 @@ class PostService
     public function destroy(int $id): int
     {
         // 古い画像を削除する
-        $post = $this->postRepository->getOneById($id);
-        if($post->image){
-            $this->storageService->deleteFile(str_replace('storage/img/', 'img/', $post->image->image_path));
-        }
+        $this->deleteOldImageFileOfPost($id);
 
         return $this->postRepository->destroy($id);
+    }
+
+    /**
+     *  指定投稿の古いファイルを削除する
+     */
+    private function deleteOldImageFileOfPost($id): void
+    {
+        $post = $this->postRepository->getOneById($id);
+        if ($post->image) {
+            $this->storageService->deleteFile(str_replace('storage/img/', 'img/', $post->image->image_path));
+        }
     }
 
 }
